@@ -92,7 +92,7 @@ implementer, who fixes them on the same pull request.
    - failure paths and cleanup: what an absent or throwing hook does (it must
      fail closed), what is left behind on an error;
    - a crash or restart between two writes;
-   - retries and races: a `requestId` retried by another principal, two calls
+   - retries and races: a request id retried by another principal, two calls
      at once;
    - input from another user, channel or namespace;
    - data written by an older version (migrations), or two stores out of step.

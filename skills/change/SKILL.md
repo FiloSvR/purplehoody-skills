@@ -63,8 +63,9 @@ first.
    anything left out, and `Closes #N` for its issue. Add the `needs/review`
    label (`plan` owns the rule). CI must pass; what "green" means while the
    label is on is in `plan` (Pull requests). Docs-only pull requests skip the
-   tests. A branch that conflicts after another merge is rebased and goes
-   through CI again. Then report the pull request and stop: the review starts
+   tests. The project's extra CI gates and labels are in
+   `docs/agents/tracker.md` and `docs/agents/testing.md`. A branch that
+   conflicts after another merge is rebased and goes through CI again. Then report the pull request and stop: the review starts
    when the owner asks (`review`), and its findings come back to you on the
    same pull request.
 7. **Keep the docs true.** If the change alters what the architecture doc says

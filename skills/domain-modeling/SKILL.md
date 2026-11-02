@@ -24,7 +24,7 @@ Actively build and sharpen the project's domain model as you design. This is the
 The paths are in `docs/agents/docs.md`.
 
 - the glossary: the project's words, in the format of [GLOSSARY-FORMAT.md](./GLOSSARY-FORMAT.md).
-- the decisions doc: the decisions, numbered D1, D2, … under "Decisions".
+- the decisions doc: the decisions, numbered, under "Decisions".
 
 ## During the session
 
@@ -52,7 +52,7 @@ The glossary should be totally devoid of implementation details. Do not treat it
 
 ### Record decisions sparingly
 
-Only give a decision a decision entry when all three are true:
+Only record a decision as an entry when all three are true:
 
 1. **Hard to reverse**: the cost of changing your mind later is meaningful
 2. **Surprising without context**: a future reader will look at the code and wonder "why did they do it this way?"
@@ -70,12 +70,12 @@ What qualifies:
 - **Constraints not visible in the code.**
 - **Rejected alternatives when the rejection is non-obvious**, so nobody suggests them again in six months.
 
-### decision entry format
+### Decision entry format
 
-Add the next number to the list under "Decisions" (or wherever `docs/agents/docs.md` says):
+Add the next number to the list under "Decisions" (or wherever `docs/agents/docs.md` says; it also gives the id prefix, if any):
 
 ```md
-N. **{Short title}** (D{n}, {date}). {What we decided and why, in a few sentences.}
+N. **{Short title}** ({id}, {date}). {What we decided and why, in a few sentences.}
    {Optional: the alternatives rejected and why, non-obvious consequences.}
    Discussion: issue #{issue}.
 ```

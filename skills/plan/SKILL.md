@@ -72,7 +72,8 @@ records, and the review checks the tests against it.
 
 An issue is one **vertical cut**: narrow, but through every layer it needs
 (store, service, API, interface, tests), never a horizontal slice of one layer. It
-is verifiable on its own when done, and fits the budget `change` sets.
+is verifiable on its own when done, and fits the budget `change` sets. The
+project's own hints for where to cut are in `docs/agents/tracker.md`.
 
 - Larger than that: split it into cuts, each with its own **Done when**, and
   set the edges as `Depends on` plus tracker dependencies. Split when the

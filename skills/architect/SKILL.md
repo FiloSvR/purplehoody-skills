@@ -37,7 +37,7 @@ the glossary's words.
    - where it goes and the interfaces it adds or changes;
    - what happens on failure (crash, restart, timeout, denied access);
    - the tests that will prove it, with their layers (`docs/agents/testing.md`),
-     written first for core contracts.
+     written first for the contracts other code depends on.
 6. **Update the architecture doc** in the same pull request: tables, status
    (planned → built) and invariants with the test that checks each. If a rule
    can be checked by a tool (a dependency check, CI), extend the tool rather
