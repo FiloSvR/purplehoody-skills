@@ -1,6 +1,6 @@
 # Tracker, labels and board
 
-Read by `plan`, `change` and `review`.
+Read by `plan` and `change`.
 
 - Tracker: `<where issues and pull requests live and the commands that drive
   them; machine-specific details (hosts, accounts, paths) go in untracked local

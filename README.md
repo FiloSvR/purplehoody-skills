@@ -48,7 +48,7 @@ Then, in each project, run `/setup-purplehoody-skills` once.
 |---|---|---|
 | `docs/agents/docs.md` | where requirements, architecture, decisions and glossary live; what the repo never holds | `architect`, `domain-modeling`, `grill-with-docs` |
 | `docs/agents/testing.md` | test layers, commands, dependency rules, standing rules | `change`, `architect`, `plan` |
-| `docs/agents/tracker.md` | the tracker, id scheme, extra labels, merge guard | `plan`, `change`, `review` |
+| `docs/agents/tracker.md` | the tracker, id scheme, extra labels, merge guard | `plan`, `change` |
 | `docs/agents/review.md` | mechanical checks, escape hatches, invariants, high-risk kinds | `review` |
 
 Templates are in `skills/setup-purplehoody-skills/`. A project with none of
