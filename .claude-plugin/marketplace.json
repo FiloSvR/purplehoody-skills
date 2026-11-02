@@ -1,0 +1,13 @@
+{
+  "name": "purplehoody",
+  "owner": { "name": "Filippo Vimini" },
+  "description": "purplehoody's agent skills, as an installable Claude Code plugin.",
+  "plugins": [
+    {
+      "name": "purplehoody-skills",
+      "source": "./",
+      "description": "Planning, test-first changes, architecture, review and domain modelling, configured per project by docs/agents/.",
+      "category": "engineering"
+    }
+  ]
+}

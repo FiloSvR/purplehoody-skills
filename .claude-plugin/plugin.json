@@ -1,0 +1,16 @@
+{
+  "name": "purplehoody-skills",
+  "version": "0.1.0",
+  "description": "Agent skills for planning, test-first changes, architecture, review and domain modelling, driven by per-project docs in docs/agents/.",
+  "author": { "name": "Filippo Vimini" },
+  "license": "MIT",
+  "skills": [
+    "./skills/setup-purplehoody-skills",
+    "./skills/plan",
+    "./skills/change",
+    "./skills/architect",
+    "./skills/review",
+    "./skills/domain-modeling",
+    "./skills/grill-with-docs"
+  ]
+}
