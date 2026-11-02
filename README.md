@@ -19,22 +19,24 @@ one by itself.
 
 ## Install
 
-**Claude Code** (a plugin; replace the source with the repo's URL or a local path):
+**Claude Code** (a plugin):
 
 ```bash
-claude plugin marketplace add <url-or-path>
+claude plugin marketplace add FiloSvR/purplehoody-skills
 claude plugin install purplehoody-skills@purplehoody
 ```
 
 **Other agents**, as editable files:
 
 ```bash
-npx skills@latest add <url-or-path> -a <agent>
+npx skills@latest add FiloSvR/purplehoody-skills -a <agent>
 ```
 
 **Linked from a clone**, so `git pull` updates them:
 
 ```bash
+git clone https://github.com/FiloSvR/purplehoody-skills
+cd purplehoody-skills
 scripts/link-skills.sh [folder]   # default: ~/.claude/skills
 ```
 
