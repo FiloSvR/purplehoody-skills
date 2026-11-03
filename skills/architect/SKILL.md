@@ -18,7 +18,8 @@ the glossary's words.
 
 ## Steps
 
-1. **Name what it serves.** List the use-case and requirement IDs. If none
+1. **Name what it serves.** List the requirement IDs and the acceptance
+   criteria (`R-012 AC1`) the issue cites. If none
    fits, the change may be out of scope: say so and ask.
 2. **Place it.** Which component, package or layer owns it? Which dependency
    edges does it add, and does the architecture doc allow each one? Apply the

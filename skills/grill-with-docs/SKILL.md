@@ -55,7 +55,8 @@ The user's answer is the OK to record it: write each settled term or decision as
   and the issue gets a comment listing what was settled.
 - Where each kind of thing goes is in `docs/agents/docs.md`: a term goes to
   the glossary; a decision that passes the three tests in `domain-modeling`
-  gets a decision entry; a requirement goes to the requirements doc; the
+  gets a decision entry; a requirement goes to its own file in the
+  requirements folder, in the `requirement` skill's format; the
   resulting structure to the architecture doc.
 - Anything settled that fits none of those still goes on the issue comment, so
   nothing lives only in the conversation.
