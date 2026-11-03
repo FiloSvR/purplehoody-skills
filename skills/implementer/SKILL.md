@@ -26,8 +26,6 @@ files simply has none.
 
 ## Before
 
-- If the change adds or moves a component, package, API resource, store or
-  dependency, run the `architect` skill first.
 - Work from a task: its file in the plans folder, `R-012-T01-….md` (see the
   `plan` skill), and its issue if the project has a tracker. If there is none,
   plan one first.
@@ -37,6 +35,9 @@ files simply has none.
   file, commit the task as `ongoing`, push, and open a draft pull request. A
   rejected push means someone else has it: stop and pick another. Giving up
   the work releases the claim.
+- Then, if the change adds or moves a component, package, API resource, store
+  or dependency, or the task carries `needs/architect`, run the `architect`
+  skill, on the claimed branch.
 - Read the criteria it covers (`covers AC1, AC3`) in the requirement file, and
   the proof each one needs (e2e test or doc). A bug fix references the
   criterion it violated.

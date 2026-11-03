@@ -42,6 +42,21 @@ implementer, who fixes them on the same pull request.
 
 ## Steps
 
+These steps are for a task's pull request. Three kinds of pull request carry
+no task, and get the check that fits them instead, plus CI (step 3):
+
+- **a requirement** (`requirement`): the criteria pass its own checks
+  (observable, one behaviour, free of design, decidable, provable); every
+  story has a criterion; no section is `pending`; the status is `ready`; the
+  number is free on `main`.
+- **a plan** (`plan`): every criterion is covered by a task, with its kind of
+  proof; every **Blocked by** links a real task and the edges have no cycle;
+  every task is `ready`, carries a seam, and its number is free on `main`; the
+  requirement changes only in its Proof table and status.
+- **a close** (`plan`, Closing): every Proof row names an e2e test that passes
+  on `main` (run it) or a doc section that shows the criterion (open it), and
+  matches the task that proved it; every task is `done` or `dropped`.
+
 1. **Scope.** Compare the diff with the issue's scope: nothing missing, nothing
    extra, and nothing from its Out of scope (for a contained issue, what its
    Scope leaves out). The tests must prove the behaviour at the seam the issue
@@ -52,7 +67,8 @@ implementer, who fixes them on the same pull request.
    criterion the task covers has its proof in the task file's Proof section,
    and the proof is an e2e test or a doc section that really shows the
    criterion; a lower-level test does not count. The task file says `done`,
-   and the requirement file is untouched. Where the
+   the requirement file is untouched, and a new task file's number is still
+   free on `main`. Where the
    issue carried `needs/architect`, check the design note is on the issue or
    its pull request and the label is gone (the rule is the `plan` skill's).
 3. **CI.** Green CI includes the project's mechanical checks;

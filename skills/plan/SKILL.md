@@ -22,8 +22,12 @@ they live in local notes, never in the repo.
   id, the task id and the title in lowercase kebab case;
 - task ids count from `T01` within their requirement, in dependency order
   (blockers first). A task added later takes the highest `T` of that
-  requirement, plus one: list the folder, don't trust memory. Numbers are
-  never reused;
+  requirement, plus one: list the folder on an up-to-date `main`, don't trust
+  memory. Numbers are never reused;
+- two sessions can take the same number at once, and git won't notice, since
+  the titles differ. So before a pull request that adds a task file is merged,
+  its number is checked again against `main`, and renumbered if taken (file,
+  title, every **Blocked by** that links it, the tracker issue);
 - work that serves no requirement (a chore, a dependency bump) uses `chore`
   as its requirement id, numbered across all chores: `chore-T07-bump-node.md`,
   with `Requirement: none (chore)`. A bug against a criterion is a task of
@@ -62,6 +66,11 @@ the file already says `ongoing`.
 **Blocked** is not a status: a `ready` task is blocked while any task in its
 **Blocked by** is not `done` on `main`, or while it carries `decision` or
 `blocked`. It is picked only once none of that holds.
+
+**Claimed** is read from the branches: a task that is `ready` on `main` but
+has an open pull request or a remote branch of its name is `ongoing`. Whoever
+reads statuses (to propose work, to move cards, to pick a task) checks both,
+`main` and the open branches; `main` alone misses the work in flight.
 
 ### Claiming a task
 
@@ -148,8 +157,8 @@ task covers, and iterate until the owner agrees.
 
 ### 5. Write and publish
 
-Only a `ready` requirement is planned; a `draft` one goes back to
-`requirement`. On a branch from an up-to-date `main`:
+Only a requirement that is `ready` on `main` is planned; a `draft` one, or
+one whose pull request is still open, goes back to `requirement`. On a branch from an up-to-date `main`:
 
 1. write the task files, from the template below, with `Status: ready`: none
    can be picked until the plan is merged, since only `main` counts;
@@ -166,11 +175,11 @@ Only a `ready` requirement is planned; a `draft` one goes back to
 ### 6. Gaps go back
 
 Planning writes only the requirement's Proof table and status, never its
-behaviour. A
-criterion that is ambiguous, a missing case found in the code, two criteria
+behaviour. A criterion that is ambiguous, a missing case found in the code, two criteria
 that contradict: stop, and settle it with the owner through `requirement`
-(Changing a requirement). Plan what is settled; the tasks that depend on the
-gap wait, labelled `decision`.
+(Changing a requirement). Plan what is settled; the gap becomes a decision
+task (see Decisions), and the tasks that depend on it list it in their
+**Blocked by**.
 
 ## Tasks
 
@@ -313,8 +322,8 @@ file `ongoing` on the branch) spans In Progress to Approved; `done` and
 
 | Column | Holds | Moved there |
 |---|---|---|
-| Backlog | not ready: blocked, or waiting on a decision | when created; when an abandoned or superseded pull request sends its task back (see Closing) |
-| To Do | ready to start | when its dependencies and decisions are done (see What's next) |
+| Backlog | `ready` but blocked: a task in its **Blocked by** not `done`, or a `decision` or `blocked` label | when created, if blocked |
+| To Do | `ready`, not blocked and not claimed | when created unblocked; when its blockers are done (see What's next); when an abandoned pull request releases its claim |
 | In Progress | being worked on | when work starts; from In Review or Approved when a finding needs behaviour work |
 | PR open | pull request with green CI, waiting for the owner's go to review (a first review, or a re-review after fixes) | when the pull request leaves draft with green CI; from In Progress, In Review or Approved when fixes are pushed with green CI and a re-review is owed (`needs/review` is on) |
 | In Review | under review, or with fixes in progress | when the owner says to review (see `review`) |
@@ -384,9 +393,10 @@ so the merge makes it true.
 
 ## What's next
 
-The coordinating agent reads the statuses on `main` at the start of a session
-and after each merge, and proposes the next batch (see the project's
-workflow): every `ready` task no longer blocked, grouped by what can run
+The coordinating agent reads the statuses on `main` and the open branches
+and pull requests (see Claimed) at the start of a session and after each
+merge, and proposes the next batch (see the project's workflow): every
+`ready` task neither blocked nor claimed, grouped by what can run
 concurrently. After each merge, with a tracker, it moves the cards of the
 tasks just unblocked to To Do; and when a requirement's last task merges, it
 runs the requirement's close (see Closing). For a `who/user` task, it posts the
@@ -419,8 +429,9 @@ An open point a review leaves behind never lives only in a pull request:
 
 - deferred: a new task, `ready`: a task file with the next `T` of its
   requirement (or `chore`), and its issue with a tracker. The coordinator
-  files it without asking: filing is planning, not recording a decision. Only
-  a decision (a decision entry, a glossary term, a doc sentence) needs the
-  owner's agreement first;
+  files it without asking, in a small pull request of its own, never in the
+  pull request under review (that one changes only for its findings): filing
+  is planning, not recording a decision. Only a decision (a decision entry, a
+  glossary term, a doc sentence) needs the owner's agreement first;
 - part of another open task: a comment on its issue, or a line in its file;
 - accepted as built: recorded in the next decisions pull request.

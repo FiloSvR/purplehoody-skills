@@ -29,8 +29,12 @@ it says otherwise:
 - its id is the prefix and the number: `R-012`. The file number *is* the id,
   so an issue's `R-012` leads straight to the file;
 - a new requirement takes the highest existing number in the folder, plus one:
-  list the folder, don't trust memory. A withdrawn or superseded requirement
-  keeps its number; numbers are never reused.
+  list the folder on an up-to-date `main`, don't trust memory. A withdrawn or
+  superseded requirement keeps its number; numbers are never reused;
+- two interviews can take the same number at once, and git won't notice, since
+  the titles differ. So before the pull request is merged, its number is
+  checked again against `main`, and renumbered if taken (file, heading, epic
+  title).
 
 ## Process
 
@@ -75,8 +79,7 @@ now. When the owner states how something works today, check the code (as in
 
 Branch from an up-to-date `main` and create the file once the title and the
 problem have settled, from the template below, with `Status: draft` and a
-`<!-- pending -->` line
-in each section still open. Then fill each section the round it settles, as
+`<!-- pending -->` line in each section still open. Then fill each section the round it settles, as
 `grill-with-docs` records, not in a batch at the end.
 
 ### 4. Check before it is done
@@ -104,8 +107,11 @@ planned. A `draft` requirement is never planned.
 Open a pull request with the requirement (and any glossary or decision entries
 it settled); it is the gate to `main`. With a tracker, create the epic now
 (see On the tracker). When the session comes from an issue, that issue becomes
-the epic instead of a new one. Then say that `plan R-NNN` cuts it into tasks.
-Do not create tasks from here.
+the epic instead of a new one. If the owner rejects the pull request, close
+the epic with a comment saying why (or, if it came from an issue, comment
+there and leave it open). Once it merges, say that `plan R-NNN` cuts it into
+tasks: only a requirement `ready` on `main` is planned. Do not create tasks
+from here.
 
 ## On the tracker
 
