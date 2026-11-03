@@ -19,7 +19,7 @@ the glossary's words.
 ## Steps
 
 1. **Name what it serves.** List the requirement IDs and the acceptance
-   criteria (`R-012 AC1`) the issue cites. If none
+   criteria (`R-012 AC1`) the task cites. If none
    fits, the change may be out of scope: say so and ask.
 2. **Place it.** Which component, package or layer owns it? Which dependency
    edges does it add, and does the architecture doc allow each one? Apply the
@@ -33,7 +33,7 @@ the glossary's words.
    a change to a decision, or a trade-off the docs don't settle is discussed
    with the owner first, using the `grill-with-docs` skill; the owner's
    answers are what it records.
-5. **Write a short design note** in the issue or pull request:
+5. **Write a short design note** in the task's pull request:
    - the requirement IDs;
    - where it goes and the interfaces it adds or changes;
    - what happens on failure (crash, restart, timeout, denied access);
@@ -43,7 +43,8 @@ the glossary's words.
    (planned → built) and invariants with the test that checks each. If a rule
    can be checked by a tool (a dependency check, CI), extend the tool rather
    than only writing the rule down.
-7. **Clear the label.** With the note on the issue or pull request, remove its
-   `needs/architect` label; the rule is the `plan` skill's.
+7. **Clear the label.** With the note on the pull request, remove the task's
+   `needs/architect` label (its `Labels` line, and its issue with a tracker);
+   the rule is the `plan` skill's.
 
 Then implement with the `implementer` skill.

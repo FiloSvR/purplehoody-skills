@@ -1,6 +1,6 @@
 ---
 name: grill-with-docs
-description: A relentless interview to settle a plan, decision or idea with the owner, which also records the project's words and decisions in the docs as they settle. Use when the owner wants to stress-test their thinking or uses any 'grill' trigger phrase ("grill me", "grill this"); also when the architect skill reaches a decision the docs don't settle, and for a decision issue.
+description: A relentless interview to settle a plan, decision or idea with the owner, which also records the project's words and decisions in the docs as they settle. Use when the owner wants to stress-test their thinking or uses any 'grill' trigger phrase ("grill me", "grill this"); also when the architect skill reaches a decision the docs don't settle, and for a decision task.
 disable-model-invocation: true
 ---
 
@@ -51,13 +51,14 @@ The session is done when the frontier is empty: every branch of the design tree 
 The user's answer is the OK to record it: write each settled term or decision as it settles, not in a batch at the end.
 
 - Work on a branch; the pull request is the gate to `main`. When the session
-  comes from an issue, the pull request closes it (see the `plan` skill)
-  and the issue gets a comment listing what was settled.
+  comes from a task (a decision task, see the `plan` skill), the pull request
+  sets that task `done` and lists what was settled in its Proof section, and
+  with a tracker also on its issue, which the merge closes.
 - Where each kind of thing goes is in `docs/agents/docs.md`: a term goes to
   the glossary; a decision that passes the three tests in `domain-modeling`
   gets a decision entry; a requirement goes to its own file in the
   requirements folder, in the `requirement` skill's format; the
   resulting structure to the architecture doc.
-- Anything settled that fits none of those still goes on the issue comment, so
+- Anything settled that fits none of those still goes in that list, so
   nothing lives only in the conversation.
 - Anything the project keeps out of the repo (`docs/agents/docs.md`) stays out.

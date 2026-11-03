@@ -19,7 +19,7 @@ first.
 
 The project may also hold area guides in its own `docs/implementer-*.md`
 (for example `docs/implementer-frontend.md`, `docs/implementer-backend.md`).
-List them, then read the ones whose area the change touches; if the issue
+List them, then read the ones whose area the change touches; if the task
 does not make the area clear, read them all. Where a guide and the generic
 steps below disagree, the guide wins for that area. A project with no such
 files simply has none.
@@ -46,7 +46,7 @@ files simply has none.
 - Every change, the task's status included, reaches `main` through that pull
   request.
 - Mind the context budget: stay under 200k tokens and about 50 turns. Read
-  only the docs and sections the issue or brief names, not whole documents,
+  only the docs and sections the task or brief names, not whole documents,
   and use `git diff` instead of re-reading files. Approaching the budget, stop
   and report what is done and what is left.
 

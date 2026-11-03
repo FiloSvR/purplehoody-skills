@@ -58,7 +58,7 @@ Only record a decision as an entry when all three are true:
 2. **Surprising without context**: a future reader will look at the code and wonder "why did they do it this way?"
 3. **The result of a real trade-off**: there were genuine alternatives and you picked one for specific reasons
 
-If a decision is easy to reverse, skip it: you'll just reverse it. If it's not surprising, nobody will wonder why. If there was no real alternative, there's nothing to record beyond "we did the obvious thing." What fails the tests but still shapes the work goes to the requirements or the architecture, or stays on the issue (see `grill-with-docs`).
+If a decision is easy to reverse, skip it: you'll just reverse it. If it's not surprising, nobody will wonder why. If there was no real alternative, there's nothing to record beyond "we did the obvious thing." What fails the tests but still shapes the work goes to the requirements or the architecture, or stays on the task (see `grill-with-docs`).
 
 What qualifies:
 
@@ -77,7 +77,7 @@ Add the next number to the list under "Decisions" (or wherever `docs/agents/docs
 ```md
 N. **{Short title}** ({id}, {date}). {What we decided and why, in a few sentences.}
    {Optional: the alternatives rejected and why, non-obvious consequences.}
-   Discussion: issue #{issue}.
+   Discussion: {task id}{, and #{issue} with a tracker}.
 ```
 
 An entry can be a single paragraph. The value is in recording *that* a decision was made and *why*, not in filling out sections. A decision that changes an earlier one edits that entry and says what changed and when; it doesn't leave two entries that disagree.
