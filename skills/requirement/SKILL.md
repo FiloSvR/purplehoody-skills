@@ -74,7 +74,8 @@ now. When the owner states how something works today, check the code (as in
 ### 3. Write as it settles
 
 Branch from an up-to-date `main` and create the file once the title and the
-problem have settled, from the template below, with a `<!-- pending -->` line
+problem have settled, from the template below, with `Status: draft` and a
+`<!-- pending -->` line
 in each section still open. Then fill each section the round it settles, as
 `grill-with-docs` records, not in a batch at the end.
 
@@ -95,7 +96,8 @@ owner confirms the shared understanding. Before asking for that, check:
   tested;
 - no section is left `pending`, and the words match the glossary.
 
-Fix what fails with the owner, then set the status to `accepted`.
+Fix what fails with the owner, then set the status to `ready`: it can now be
+planned. A `draft` requirement is never planned.
 
 ### 5. Hand off
 
@@ -114,7 +116,7 @@ issue, the epic:
   link to the file;
 - its number goes into the file's `Tracker` line;
 - the file wins: whenever the file changes (this skill, `plan`'s Proof table,
-  a task filling a proof), the epic's body is re-synced from it. A change
+  a status commit, the close), the epic's body is re-synced from it. A change
   someone made on the tracker is copied into the file first;
 - the epic has no pull request of its own; it closes when the requirement is
   done (`plan`, Closing).
@@ -124,7 +126,7 @@ issue, the epic:
 ```md
 # R-NNN <Title>
 
-- **Status**: accepted
+- **Status**: draft | ready | ongoing | done | superseded by R-… | withdrawn
 - **Date**: <YYYY-MM-DD>
 - **Decisions**: <D…, the decision entries it depends on, or "none">
 - **Tracker**: <#N, the epic, or "none">
@@ -167,7 +169,7 @@ Optional.>
 
 | Criterion | Task | Kind | Proof |
 |---|---|---|---|
-| AC1 | <T…, filled by plan> | <e2e or doc> | <the test's name, or the doc section's link; filled by the task that writes it> |
+| AC1 | <T…, filled by plan> | <e2e or doc> | <the test's name, or the doc section's link; filled at the close> |
 ```
 
 The user stories are numbered and long: one per behaviour and actor, as many
@@ -177,19 +179,24 @@ removed one is struck through, not renumbered. "Constraints" and "Notes" are
 dropped when empty.
 
 This skill writes the Proof table with one row per criterion and the other
-columns empty; `plan` fills Task and Kind, and each task's pull request fills
-the Proof of the criteria it covers. The status goes from `accepted` to `done`
-when every row's proof holds (`plan`, Closing).
+columns empty; `plan` fills Task and Kind. Each task records its proof in its
+own file, so tasks running at once never edit this one; the Proof column is
+copied from them at the close, when the status becomes `done`.
+
+The status follows the work (see `plan`, Status and working concurrently):
+`draft` while this skill writes it, `ready` once the owner accepts it,
+`ongoing` from the first task claimed, `done` once every criterion is proved.
 
 ## Changing a requirement
 
-An accepted requirement is edited in place, on a branch, through the same
-interview for the part that changes. Add a line under the header: `- **Changed**:
-<date>: <what changed and why>`. A criterion that changes keeps its number; a
-new one takes the next. A changed or new criterion's Proof row is emptied, and
-a `done` requirement goes back to `accepted`. If the change undoes behaviour
-that is already built, say so in the pull request: `plan` adds the tasks that
-bring the code in line. With a tracker, re-sync the epic.
+A `ready`, `ongoing` or `done` requirement is edited in place, on a branch,
+through the same interview for the part that changes. Add a line under the
+header: `- **Changed**: <date>: <what changed and why>`. A criterion that
+changes keeps its number; a new one takes the next. A changed or new
+criterion's Proof row is emptied, and a `done` requirement goes back to
+`ongoing`. If the change undoes behaviour that is already built, say so in the
+pull request: `plan` adds the tasks that bring the code in line. With a
+tracker, re-sync the epic.
 
 A requirement that is replaced gets `Status: superseded by R-…`; one that is
 dropped gets `Status: withdrawn`, with a line saying why. Neither is deleted.

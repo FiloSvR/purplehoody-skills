@@ -7,7 +7,8 @@ the repo root.
   requirement, `NNN-short-title.md`, id `<prefix, default R->NNN` (the
   `requirement` skill's format).
 - Plans: `<folder, default docs/plans/>`: one file per task,
-  `R-NNN-TNN-short-title.md` (the `plan` skill's format).
+  `R-NNN-TNN-short-title.md`, or `chore-TNN-short-title.md` for work that
+  serves no requirement (the `plan` skill's format).
 - Architecture: `<path>`: components, processes, request flow, data and the
   invariants, each with the test that checks it.
 - Decisions: `<path>`: numbered entries (D1, D2, …), under "Decisions".

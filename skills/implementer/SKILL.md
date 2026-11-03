@@ -30,7 +30,11 @@ files simply has none.
   dependency, run the `architect` skill first.
 - Work from a task: its file in the plans folder, `R-012-T01-….md` (see the
   `plan` skill), and its issue if the project has a tracker. If there is none,
-  plan one first. Move its card to In Progress.
+  plan one first.
+- Claim it before any code: it must be `ready` with every task in its
+  **Blocked by** `done`; set it `ongoing` with a status commit, as in `plan`
+  (Claiming a task). A rejected push or a task already `ongoing` means someone
+  else has it: stop and pick another. Giving up the work releases the claim.
 - Read the criteria it covers (`covers AC1, AC3`) in the requirement file, and
   the proof each one needs (e2e test or doc). A bug fix references the
   criterion it violated.
@@ -58,7 +62,8 @@ files simply has none.
      request a server answers), not the value you put in the configuration.
      A config value can be right while the wiring around it is broken.
    - A criterion the task covers is proved by its e2e test or doc section,
-     as its Proof row says, whatever the seam of the rest.
+     of the kind the requirement's Proof table names, whatever the seam of
+     the rest.
 2. **Watch it fail for the right reason.** Run only the test files the change
    touches, never the whole suite — CI is the full gate. A test that passes
    before the change proves nothing.
@@ -70,10 +75,10 @@ files simply has none.
 5. **Commit.** Commit at each green checkpoint, so a restart keeps the work.
    Reference the IDs in the message. Follow the project's dependency rules in
    `docs/agents/testing.md`.
-6. **Open the pull request.** Before opening it, fill the Proof cell of each
-   criterion the task covers in the requirement's Proof table (the test's
-   name, or the doc section's link), and without a tracker set the task
-   file's Status to `done`. Say what changed, the task file, the IDs, how it
+6. **Open the pull request.** Before opening it, fill the task file's Proof
+   section (the test's name, or the doc section's link, for each criterion it
+   covers), set its Status to `done` and clear `Claimed by`: the merge makes
+   it true. Do not edit the requirement file. Say what changed, the task file, the IDs, how it
    was tested and anything left out, and with a tracker `Closes #N` for the
    task's issue. Add the `needs/review`
    label (`plan` owns the rule). CI must pass; what "green" means while the

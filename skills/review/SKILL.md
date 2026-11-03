@@ -49,9 +49,10 @@ implementer, who fixes them on the same pull request.
    the diff says why. Extra work belongs in its own issue.
 2. **Done when.** Give each item its evidence: a test name, a `file:line`, or
    a command and its output. An item without evidence is not met. Each
-   criterion the task covers has its proof in the requirement's Proof table,
+   criterion the task covers has its proof in the task file's Proof section,
    and the proof is an e2e test or a doc section that really shows the
-   criterion; a lower-level test does not count. Where the
+   criterion; a lower-level test does not count. The task file says `done`,
+   and the requirement file is untouched. Where the
    issue carried `needs/architect`, check the design note is on the issue or
    its pull request and the label is gone (the rule is the `plan` skill's).
 3. **CI.** Green CI includes the project's mechanical checks;

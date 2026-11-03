@@ -25,18 +25,66 @@ they live in local notes, never in the repo.
   requirement, plus one: list the folder, don't trust memory. Numbers are
   never reused;
 - work that serves no requirement (a chore, a dependency bump) uses `chore`
-  as its requirement id, numbered across all chores: `chore-T07-bump-node.md`.
-  A bug against a criterion is a task of that criterion's requirement.
+  as its requirement id, numbered across all chores: `chore-T07-bump-node.md`,
+  with `Requirement: none (chore)`. A bug against a criterion is a task of
+  that criterion's requirement.
 
 With a tracker (`docs/agents/tracker.md`), each task file is also an issue:
 
 - title `R-012-T01 <Title>`, body the file's content plus a link to the file;
 - a sub-issue of the requirement's epic (`requirement` creates it), with its
-  `Depends on` set as native tracker dependencies;
+  **Blocked by** set as native tracker dependencies;
 - the issue number goes back into the file's `Tracker` line, so either one
   leads to the other;
 - the file wins: change the file and re-sync the issue, never the other way.
-  A change someone made on the tracker is copied into the file first.
+  A change someone made on the tracker is copied into the file first. The
+  board follows the file's status (see Board).
+
+## Status and working concurrently
+
+Every requirement and every task carries a `Status` line, so several agents
+(or people) can work at once without picking the same thing. The status on
+`main` is the truth.
+
+| Status | Requirement | Task |
+|---|---|---|
+| `draft` | being written by `requirement`; never planned | written by `plan`, its plan pull request not merged; never picked |
+| `ready` | accepted by the owner; can be planned | on `main`, not started; can be picked once every task in its **Blocked by** is `done` |
+| `ongoing` | at least one of its tasks is `ongoing` or `done` | claimed: someone is working on it (see Claiming a task) |
+| `done` | every criterion proved (see Closing) | its pull request merged |
+| `dropped` | (`superseded by R-…` or `withdrawn`, see `requirement`) | abandoned or replaced; a line says why and links the replacement |
+
+**Blocked** is not a status: a `ready` task is blocked while any task in its
+**Blocked by** is not `done`, or while it carries `decision` or `blocked`. It
+is picked only once none of that holds.
+
+### Status commits
+
+A **status commit** changes only `Status`, `Claimed by` and `Tracker` lines
+in requirement and task files, nothing else. It goes straight to `main`,
+without a pull request: the one exception to "every change through a pull
+request", because a claim that waits for a review is no claim. If `main` is
+protected against it (`docs/agents/tracker.md` says), a claim is instead a
+draft pull request opened at once, with the status change as its first
+commit, and an open draft pull request for a task counts as `ongoing`.
+
+### Claiming a task
+
+1. Pull `main`. Pick a task that is `ready` and not blocked.
+2. In one status commit: set it to `ongoing`, fill `Claimed by` (who, and the
+   branch), and set its requirement to `ongoing` if it was `ready`.
+3. Push. A rejected push means someone else pushed first: pull, look again,
+   and if the task is now `ongoing`, pick another. The push is the lock.
+4. With a tracker, move its card to In Progress and re-sync the issue.
+
+Two tasks are safe to work concurrently when neither is in the other's
+**Blocked by**, directly or through others. The planner keeps edges only where
+one task truly needs the other's code, so that as many tasks as possible are
+free at once.
+
+A claim given up (the work stops, the session ends unfinished) is released
+with a status commit back to `ready`, clearing `Claimed by`, and a line in the
+task saying where the work stopped and which branch holds it.
 
 ## From a requirement to tasks
 
@@ -95,21 +143,26 @@ task covers, and iterate until the owner agrees.
 
 ### 5. Write and publish
 
-On a branch from an up-to-date `main`:
+Only a `ready` requirement is planned; a `draft` one goes back to
+`requirement`. On a branch from an up-to-date `main`:
 
-1. write the task files, from the template below;
+1. write the task files, from the template below, with `Status: draft`;
 2. fill the requirement's **Proof** table: for each criterion, its task and
    the kind of proof (`e2e` or `doc`), the proof itself left empty;
-3. with a tracker: create the issues in dependency order, so every edge names a
-   real issue; make each one a sub-issue of the epic, set its dependencies and
-   labels, put it on the board (Backlog, or To Do if nothing blocks it), and
-   write its number into the file's `Tracker` line;
-4. open the pull request, `Plan R-012`, holding the task files and the Proof
+3. open the pull request, `Plan R-012`, holding the task files and the Proof
    table. It is the gate to `main` like any other.
+
+After the owner merges it, in one status commit, set every task to `ready`.
+With a tracker, first create the issues in dependency order, so every edge
+names a real issue: each one a sub-issue of the epic, with its dependencies
+and labels, on the board (see Board), its number written into the file's
+`Tracker` line in that same status commit. Nothing is published, and nothing
+can be picked, before the plan is on `main`.
 
 ### 6. Gaps go back
 
-Planning writes only the requirement's Proof table, never its behaviour. A
+Planning writes only the requirement's Proof table and status, never its
+behaviour. A
 criterion that is ambiguous, a missing case found in the code, two criteria
 that contradict: stop, and settle it with the owner through `requirement`
 (Changing a requirement). Plan what is settled; the tasks that depend on the
@@ -147,11 +200,19 @@ gap wait, labelled `decision`.
   covers AC1, AC3 (proof: AC1 e2e, AC3 doc). Groundwork says
   "enables T02, T03" instead.
 - **Decisions**: <D…, or "none">
-- **Depends on**: <T…, or "none">
 - **Seam**: <where the tests sit, and the layer from docs/agents/testing.md>
 - **Labels**: <who/agent, needs/architect, …>
 - **Tracker**: <#N, or "none">
-- **Status**: <only without a tracker: todo | blocked | done>
+- **Status**: draft | ready | ongoing | done | dropped
+- **Claimed by**: <who, and the branch, while ongoing; empty otherwise>
+
+## Blocked by
+
+- [R-012-T01 <Title>](R-012-T01-<title>.md)
+- [R-007-T03 <Title>](R-007-T03-<title>.md): a task of another requirement
+  blocks it the same way
+
+<or "None: can start as soon as it is ready.">
 
 ## Goal
 
@@ -172,10 +233,18 @@ architect note's.>
 - [ ] AC1: <the e2e test that proves it> passes
 - [ ] AC3: <the doc section that shows it> is written
 - [ ] <anything else the task owes: a doc updated, a fake kept in step>
-- [ ] the requirement's Proof table names the proof of AC1 and AC3
+
+## Proof
+
+- AC1: <the e2e test's name, filled by the task's pull request>
+- AC3: <the doc section's link, filled by the task's pull request>
 ```
 
 The **Done when** list is what the review checks the pull request against.
+**Blocked by** lists only the tasks this one truly needs done first, by link,
+in any requirement; the same edges go to the tracker. The proof is recorded
+here, in the task, so that tasks of one requirement never edit the same file
+at once; the requirement's Proof table is filled from these at its close.
 
 ### One cut, not one layer
 
@@ -185,7 +254,7 @@ is verifiable on its own when done, and fits the budget `implementer` sets. The
 project's own hints for where to cut are in `docs/agents/tracker.md`.
 
 - Larger than that: split it into tasks, each with its own **Done when**, and
-  set the edges as `Depends on` (plus tracker dependencies). Split when the
+  set the edges in **Blocked by** (plus tracker dependencies). Split when the
   Scope crosses more than one package family or layer, or a contract and its
   docs.
 - Parity work (a fake or a second implementation kept in step with the real
@@ -232,7 +301,10 @@ pull request; a decision goes to its decision entry, not to the plan.
 
 ## Board
 
-With a tracker, the board holds every task's state; the files hold none.
+The files' statuses are the truth; with a tracker, the board mirrors them and
+adds the review steps the files don't track. A `draft` task has no card. A
+`ready` task sits in Backlog while blocked and in To Do once not; `ongoing`
+spans In Progress to Approved; `done` and `dropped` are Done.
 
 | Column | Holds | Moved there |
 |---|---|---|
@@ -251,9 +323,8 @@ it move to Approved. An epic's card follows its tasks: In Progress while any
 task is In Progress, PR open, In Review or Approved; Done only when the
 requirement is done (see Closing).
 
-Without a tracker, the `Status` line is the board: `todo` or `blocked` when
-written, `done` set by the task's own pull request, so the merge makes it
-true. Work in progress shows as its open pull request.
+A task's `done` is set by its own pull request, so the merge makes it true;
+every other change of status is a status commit.
 
 ## Pull requests
 
@@ -287,32 +358,34 @@ true. Work in progress shows as its open pull request.
 
 ## Closing
 
-- A task with a pull request is closed by its merge.
+- A task with a pull request is `done` by its merge (the pull request sets the
+  status), which also closes its issue.
 - A task without one (a `who/user` task, something verified outside the
-  repo) is closed by the agent after checking the result itself, with the
-  evidence in a comment on its issue, or in the file's Done when without a
-  tracker.
-- **A requirement is done** when every acceptance criterion is proved: its
-  row in the Proof table names an e2e test that passes on `main`, or a doc
-  section that shows it. Not when its last task merges: a criterion without a
-  proof keeps it open, and needs a task. After the last task merges, the
-  coordinator checks every row itself (runs the named tests, opens the docs),
-  then sets the requirement's status to `done` in a pull request, and with a
-  tracker closes the epic with a comment listing each criterion and its proof.
+  repo) is set `done` by the agent in a status commit, after checking the
+  result itself, with the evidence in its Proof section and on its issue.
+- **A requirement is done** when every acceptance criterion is proved by an
+  e2e test that passes on `main`, or a doc section that shows it. Not when its
+  last task merges: a criterion without a proof keeps it `ongoing`, and needs a
+  task. Once every task of it is `done` or `dropped`, the coordinator checks
+  each proof itself (runs the named tests, opens the docs), copies them from
+  the tasks' Proof sections into the requirement's Proof table, sets it to
+  `done` in a pull request, and with a tracker closes the epic with a comment
+  listing each criterion and its proof.
 - Never close on a check that failed or wasn't run: comment, and leave it
   open or label it `blocked`.
-- An abandoned or superseded pull request gets a comment saying why. Its task
-  goes back to Backlog, or is closed with a link to the replacement. `blocked`
-  is only for a blocker outside the plan.
+- An abandoned pull request gets a comment saying why, and its task goes back
+  to `ready` (see Claiming a task). A superseded one's task is `dropped`, with
+  a link to the replacement. `blocked` is only for a blocker outside the plan.
 
 ## What's next
 
-The coordinating agent reads the board (or the task files' Status lines) at
-the start of a session and after each merge, and proposes the next batch (see
-the project's workflow). After each merge it also re-reads the Backlog, moves
-every task whose `Depends on` is now done to To Do, and proposes it; and when
-a requirement's last task merges, it runs the requirement's close (see
-Closing). For a `who/user` task, it posts the exact commands as a comment.
+The coordinating agent reads the statuses on `main` at the start of a session
+and after each merge, and proposes the next batch (see the project's
+workflow): every `ready` task no longer blocked, grouped by what can run
+concurrently. After each merge, with a tracker, it moves the cards of the
+tasks just unblocked to To Do; and when a requirement's last task merges, it
+runs the requirement's close (see Closing). For a `who/user` task, it posts the
+exact commands as a comment.
 
 The proposal is the breakdown, not only the list: for each task, its title,
 the tasks that block it, its seam, the criteria it covers with their proof,
@@ -329,16 +402,17 @@ it reaches the board.
 
 ## Decisions
 
-A `decision` issue blocks the tasks that depend on it. It is settled with the
-owner in a conversation (the `grill-with-docs` skill): the docs are written on
-a branch as the answers settle, the outcome goes on the issue as a comment,
-and that docs pull request closes the issue.
+A decision is a task labelled `decision`, and the tasks that need it list it
+in their **Blocked by**. It is settled with the owner in a conversation (the
+`grill-with-docs` skill): the docs are written on a branch as the answers
+settle, the outcome goes in the task's Proof section (and on its issue), and
+that docs pull request sets it `done`.
 
 ## Open points
 
 An open point a review leaves behind never lives only in a pull request:
 
-- deferred: a new task, in Backlog: a task file with the next `T` of its
+- deferred: a new task, `ready`: a task file with the next `T` of its
   requirement (or `chore`), and its issue with a tracker. The coordinator
   files it without asking: filing is planning, not recording a decision. Only
   a decision (a decision entry, a glossary term, a doc sentence) needs the
