@@ -69,7 +69,7 @@ what it would overwrite first.
 |---|---|---|
 | `docs/agents/docs.md` | where requirements, plans, architecture, decisions and glossary live; what the repo never holds | `requirement`, `plan`, `implementer`, `architect`, `domain-modeling`, `grill-with-docs` |
 | `docs/agents/testing.md` | test layers, commands, dependency rules, standing rules | `implementer`, `architect`, `plan` |
-| `docs/agents/tracker.md` | the tracker (or none), how epics link sub-issues, status commits, extra labels, merge guard | `requirement`, `plan`, `implementer` |
+| `docs/agents/tracker.md` | the tracker (or none), how epics link sub-issues, extra labels, merge guard | `requirement`, `plan`, `implementer` |
 | `docs/agents/review.md` | mechanical checks, escape hatches, invariants, high-risk kinds | `review` |
 
 Optionally, `docs/implementer-*.md` (e.g. `implementer-frontend.md`, `implementer-backend.md`) hold per-area guides; `implementer` reads the ones matching the area it touches.

@@ -31,16 +31,18 @@ files simply has none.
 - Work from a task: its file in the plans folder, `R-012-T01-….md` (see the
   `plan` skill), and its issue if the project has a tracker. If there is none,
   plan one first.
-- Claim it before any code: it must be `ready` with every task in its
-  **Blocked by** `done`; set it `ongoing` with a status commit, as in `plan`
-  (Claiming a task). A rejected push or a task already `ongoing` means someone
-  else has it: stop and pick another. Giving up the work releases the claim.
+- Claim it before any code, as in `plan` (Claiming a task): it must be
+  `ready` on `main`, with every task in its **Blocked by** `done`, and no open
+  pull request or branch of its name. Create the branch named after the task
+  file, commit the task as `ongoing`, push, and open a draft pull request. A
+  rejected push means someone else has it: stop and pick another. Giving up
+  the work releases the claim.
 - Read the criteria it covers (`covers AC1, AC3`) in the requirement file, and
   the proof each one needs (e2e test or doc). A bug fix references the
   criterion it violated.
 - A task with no `Seam` line is a question for the coordinator: stop and ask;
   do not pick a seam yourself.
-- Branch from an up-to-date `main`. Every change reaches `main` through a pull
+- Every change, the task's status included, reaches `main` through that pull
   request.
 - Mind the context budget: stay under 200k tokens and about 50 turns. Read
   only the docs and sections the issue or brief names, not whole documents,
@@ -75,7 +77,7 @@ files simply has none.
 5. **Commit.** Commit at each green checkpoint, so a restart keeps the work.
    Reference the IDs in the message. Follow the project's dependency rules in
    `docs/agents/testing.md`.
-6. **Open the pull request.** Before opening it, fill the task file's Proof
+6. **Mark the pull request ready for review.** Before that, fill the task file's Proof
    section (the test's name, or the doc section's link, for each criterion it
    covers), set its Status to `done` and clear `Claimed by`: the merge makes
    it true. Do not edit the requirement file. Say what changed, the task file, the IDs, how it

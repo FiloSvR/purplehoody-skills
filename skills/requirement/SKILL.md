@@ -116,7 +116,7 @@ issue, the epic:
   link to the file;
 - its number goes into the file's `Tracker` line;
 - the file wins: whenever the file changes (this skill, `plan`'s Proof table,
-  a status commit, the close), the epic's body is re-synced from it. A change
+  the plan, the close), the epic's body is re-synced from it. A change
   someone made on the tracker is copied into the file first;
 - the epic has no pull request of its own; it closes when the requirement is
   done (`plan`, Closing).
@@ -185,7 +185,8 @@ copied from them at the close, when the status becomes `done`.
 
 The status follows the work (see `plan`, Status and working concurrently):
 `draft` while this skill writes it, `ready` once the owner accepts it,
-`ongoing` from the first task claimed, `done` once every criterion is proved.
+`ongoing` once its plan is merged, `done` once every criterion is proved.
+Every change of status is in a pull request, reviewed with the change.
 
 ## Changing a requirement
 

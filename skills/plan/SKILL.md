@@ -43,48 +43,53 @@ With a tracker (`docs/agents/tracker.md`), each task file is also an issue:
 ## Status and working concurrently
 
 Every requirement and every task carries a `Status` line, so several agents
-(or people) can work at once without picking the same thing. The status on
-`main` is the truth.
+(or people) can work at once without picking the same thing.
+
+A status changes only in a pull request, together with the change it
+describes, so it is reviewed with it; nothing is pushed to `main` directly.
+`main` therefore shows what is merged: `ready` until the work lands, then
+`done`. Work in between shows as its branch and its open pull request, where
+the file already says `ongoing`.
 
 | Status | Requirement | Task |
 |---|---|---|
-| `draft` | being written by `requirement`; never planned | written by `plan`, its plan pull request not merged; never picked |
-| `ready` | accepted by the owner; can be planned | on `main`, not started; can be picked once every task in its **Blocked by** is `done` |
-| `ongoing` | at least one of its tasks is `ongoing` or `done` | claimed: someone is working on it (see Claiming a task) |
-| `done` | every criterion proved (see Closing) | its pull request merged |
-| `dropped` | (`superseded by R-…` or `withdrawn`, see `requirement`) | abandoned or replaced; a line says why and links the replacement |
+| `draft` | being written, on the `requirement` branch; never planned | — (a task not yet on `main` is not pickable anyway) |
+| `ready` | accepted and merged; can be planned | merged with its plan; can be picked once every task in its **Blocked by** is `done` |
+| `ongoing` | planned: set by the plan pull request, while its tasks are built | claimed: set by the first commit of its own branch (see Claiming a task) |
+| `done` | every criterion proved, set by the close pull request (see Closing) | set by its own pull request, true once that merges |
+| `dropped` | (`superseded by R-…` or `withdrawn`, see `requirement`) | abandoned or replaced, set in the pull request that replaces or drops it; a line says why |
 
 **Blocked** is not a status: a `ready` task is blocked while any task in its
-**Blocked by** is not `done`, or while it carries `decision` or `blocked`. It
-is picked only once none of that holds.
-
-### Status commits
-
-A **status commit** changes only `Status`, `Claimed by` and `Tracker` lines
-in requirement and task files, nothing else. It goes straight to `main`,
-without a pull request: the one exception to "every change through a pull
-request", because a claim that waits for a review is no claim. If `main` is
-protected against it (`docs/agents/tracker.md` says), a claim is instead a
-draft pull request opened at once, with the status change as its first
-commit, and an open draft pull request for a task counts as `ongoing`.
+**Blocked by** is not `done` on `main`, or while it carries `decision` or
+`blocked`. It is picked only once none of that holds.
 
 ### Claiming a task
 
-1. Pull `main`. Pick a task that is `ready` and not blocked.
-2. In one status commit: set it to `ongoing`, fill `Claimed by` (who, and the
-   branch), and set its requirement to `ongoing` if it was `ready`.
-3. Push. A rejected push means someone else pushed first: pull, look again,
-   and if the task is now `ongoing`, pick another. The push is the lock.
-4. With a tracker, move its card to In Progress and re-sync the issue.
+The claim is the task's branch, named after its file without `.md`
+(`R-012-T01-add-attempt-counter`), and the draft pull request opened from it.
+
+1. Pull `main`. Pick a task that is `ready` and not blocked, and has no open
+   pull request and no remote branch of that name.
+2. Create the branch from `main`. Its first commit sets the task `ongoing`
+   and fills `Claimed by` (who, and the branch).
+3. Push it and open a **draft** pull request at once. A rejected push means
+   the branch already exists: someone else has the task; pick another. The
+   push is the lock, and the draft pull request is the claim everyone sees.
+4. With a tracker, move its card to In Progress.
+
+The work then continues on that branch, and the pull request leaves draft
+when it is ready for review (`implementer`). Its last change sets the task
+`done` and clears `Claimed by`, so the merge makes both true together.
 
 Two tasks are safe to work concurrently when neither is in the other's
 **Blocked by**, directly or through others. The planner keeps edges only where
 one task truly needs the other's code, so that as many tasks as possible are
 free at once.
 
-A claim given up (the work stops, the session ends unfinished) is released
-with a status commit back to `ready`, clearing `Claimed by`, and a line in the
-task saying where the work stopped and which branch holds it.
+A claim given up (the work stops, the session ends unfinished) is released by
+closing the draft pull request with a comment saying where the work stopped,
+and renaming its branch `abandoned/<name>` so the name is free again. `main`
+never changed, so the task is still `ready`.
 
 ## From a requirement to tasks
 
@@ -146,18 +151,17 @@ task covers, and iterate until the owner agrees.
 Only a `ready` requirement is planned; a `draft` one goes back to
 `requirement`. On a branch from an up-to-date `main`:
 
-1. write the task files, from the template below, with `Status: draft`;
+1. write the task files, from the template below, with `Status: ready`: none
+   can be picked until the plan is merged, since only `main` counts;
 2. fill the requirement's **Proof** table: for each criterion, its task and
-   the kind of proof (`e2e` or `doc`), the proof itself left empty;
-3. open the pull request, `Plan R-012`, holding the task files and the Proof
-   table. It is the gate to `main` like any other.
-
-After the owner merges it, in one status commit, set every task to `ready`.
-With a tracker, first create the issues in dependency order, so every edge
-names a real issue: each one a sub-issue of the epic, with its dependencies
-and labels, on the board (see Board), its number written into the file's
-`Tracker` line in that same status commit. Nothing is published, and nothing
-can be picked, before the plan is on `main`.
+   the kind of proof (`e2e` or `doc`), the proof itself left empty; and set
+   the requirement `ongoing`;
+3. with a tracker: create the issues in dependency order, so every edge names
+   a real issue: each one a sub-issue of the epic, with its dependencies and
+   labels, in Backlog, its number written into the file's `Tracker` line;
+4. open the pull request, `Plan R-012`. It is the gate to `main` like any
+   other. If the owner rejects it, close the issues it created; when it
+   merges, move the unblocked ones to To Do.
 
 ### 6. Gaps go back
 
@@ -203,7 +207,7 @@ gap wait, labelled `decision`.
 - **Seam**: <where the tests sit, and the layer from docs/agents/testing.md>
 - **Labels**: <who/agent, needs/architect, …>
 - **Tracker**: <#N, or "none">
-- **Status**: draft | ready | ongoing | done | dropped
+- **Status**: ready | ongoing | done | dropped
 - **Claimed by**: <who, and the branch, while ongoing; empty otherwise>
 
 ## Blocked by
@@ -302,16 +306,17 @@ pull request; a decision goes to its decision entry, not to the plan.
 ## Board
 
 The files' statuses are the truth; with a tracker, the board mirrors them and
-adds the review steps the files don't track. A `draft` task has no card. A
-`ready` task sits in Backlog while blocked and in To Do once not; `ongoing`
-spans In Progress to Approved; `done` and `dropped` are Done.
+adds the review steps the files don't track. A `ready` task sits in Backlog
+while blocked and in To Do once not; a task with an open pull request (its
+file `ongoing` on the branch) spans In Progress to Approved; `done` and
+`dropped` are Done.
 
 | Column | Holds | Moved there |
 |---|---|---|
 | Backlog | not ready: blocked, or waiting on a decision | when created; when an abandoned or superseded pull request sends its task back (see Closing) |
 | To Do | ready to start | when its dependencies and decisions are done (see What's next) |
 | In Progress | being worked on | when work starts; from In Review or Approved when a finding needs behaviour work |
-| PR open | pull request with green CI, waiting for the owner's go to review (a first review, or a re-review after fixes) | when the pull request opens with green CI; from In Progress, In Review or Approved when fixes are pushed with green CI and a re-review is owed (`needs/review` is on) |
+| PR open | pull request with green CI, waiting for the owner's go to review (a first review, or a re-review after fixes) | when the pull request leaves draft with green CI; from In Progress, In Review or Approved when fixes are pushed with green CI and a re-review is owed (`needs/review` is on) |
 | In Review | under review, or with fixes in progress | when the owner says to review (see `review`) |
 | Approved | the last required review approved and the low fixes it leaves are confirmed or re-reviewed, waiting for the owner's merge | when that condition holds (see Pull requests) |
 | Done | closed | after the merge |
@@ -323,8 +328,8 @@ it move to Approved. An epic's card follows its tasks: In Progress while any
 task is In Progress, PR open, In Review or Approved; Done only when the
 requirement is done (see Closing).
 
-A task's `done` is set by its own pull request, so the merge makes it true;
-every other change of status is a status commit.
+Every change of status is in a pull request; a task's `done` is in its own,
+so the merge makes it true.
 
 ## Pull requests
 
@@ -341,7 +346,7 @@ every other change of status is a status commit.
   new push. While the label is on, "green CI" means the test check: the guard is
   red by design until the label goes, and every context is green only once it
   has.
-  - the implementer adds `needs/review` when it opens the pull request;
+  - the implementer adds `needs/review` when the pull request leaves draft;
   - the review that completes the round removes it. For a high-risk change
     that is the second, independent review: a first approval leaves the label
     in place and says why;
@@ -361,8 +366,8 @@ every other change of status is a status commit.
 - A task with a pull request is `done` by its merge (the pull request sets the
   status), which also closes its issue.
 - A task without one (a `who/user` task, something verified outside the
-  repo) is set `done` by the agent in a status commit, after checking the
-  result itself, with the evidence in its Proof section and on its issue.
+  repo) is set `done` by the agent in a small pull request, after checking
+  the result itself, with the evidence in its Proof section and on its issue.
 - **A requirement is done** when every acceptance criterion is proved by an
   e2e test that passes on `main`, or a doc section that shows it. Not when its
   last task merges: a criterion without a proof keeps it `ongoing`, and needs a
@@ -373,8 +378,8 @@ every other change of status is a status commit.
   listing each criterion and its proof.
 - Never close on a check that failed or wasn't run: comment, and leave it
   open or label it `blocked`.
-- An abandoned pull request gets a comment saying why, and its task goes back
-  to `ready` (see Claiming a task). A superseded one's task is `dropped`, with
+- An abandoned pull request gets a comment saying why; its task stays
+  `ready` on `main` (see Claiming a task). A superseded one's task is `dropped`, with
   a link to the replacement. `blocked` is only for a blocker outside the plan.
 
 ## What's next

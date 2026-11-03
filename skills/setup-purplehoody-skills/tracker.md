@@ -15,8 +15,6 @@ Read by `requirement`, `plan` and `implementer`.
   |---|---|---|
   | `<label>` | `<issue or pull request>` | `<what it means and who sets it>` |
 
-- Status commits: `<straight to main (the default), or "main is protected":
-  claims are then draft pull requests (see plan, Status commits)>`.
 - Merge guard: `<the CI context that fails while `needs/review` is on, or "none">`.
   Required CI contexts: `<names>`.
 - Board columns: `<the ones in `plan`, or what differs>`.
