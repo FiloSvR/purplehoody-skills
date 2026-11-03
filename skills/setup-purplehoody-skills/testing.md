@@ -8,7 +8,7 @@ Read by `implementer`, `architect` and `plan`.
 |---|---|---|
 | `<e.g. .test.ts>` | unit | `<pure logic, parsing>` |
 | `<…>` | integration | `<…>` |
-| `<…>` | end-to-end | `<…>` |
+| `<…>` | end-to-end | `<…>`; proves a requirement's acceptance criteria (`plan`). If the project has none, say so: `plan` then asks before planning a behaviour criterion |
 
 ## Commands
 

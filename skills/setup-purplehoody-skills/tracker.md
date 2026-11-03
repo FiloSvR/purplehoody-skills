@@ -3,9 +3,12 @@
 Read by `plan` and `implementer`.
 
 - Tracker: `<where issues and pull requests live and the commands that drive
-  them; machine-specific details (hosts, accounts, paths) go in untracked local
-  notes, not here>`.
-- Issue ids: `<the scheme, e.g. a letter per milestone plus a number>`.
+  them, or "none": the plan files are then the only record; machine-specific
+  details (hosts, accounts, paths) go in untracked local notes, not here>`.
+- Epics and sub-issues: `<how this tracker links a task to its requirement's
+  epic: native sub-issues, a parent field, or a "Part of #N" line>`.
+- Issue titles: the requirement or task id, `R-NNN <Title>` or
+  `R-NNN-TNN <Title>`, from the files (see `plan`).
 - Extra labels (the shared ones are defined in `plan`):
 
   | Label | On | Means |

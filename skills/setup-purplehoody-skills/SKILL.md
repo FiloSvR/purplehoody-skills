@@ -6,8 +6,8 @@ disable-model-invocation: true
 
 # Setup purplehoody skills
 
-The shared skills (`plan`, `implementer`, `architect`, `review`, `domain-modeling`,
-`grill-with-docs`) name no project facts. They read them from four files in
+The shared skills (`requirement`, `plan`, `implementer`, `architect`, `review`,
+`domain-modeling`, `grill-with-docs`) name no project facts. They read them from four files in
 `docs/agents/`. This skill writes those files, from the templates next to it.
 It is prompt-driven: explore, present, confirm, then write.
 
@@ -23,6 +23,9 @@ Read, don't assume:
   `## Agent skills` block?
 - `docs/agents/`: a previous run's output. Update it, don't overwrite edits.
 - the docs: requirements, architecture, decisions, glossary, wherever they are.
+  Requirements kept in one file are not moved by this skill: say so, and
+  offer to split them into the `requirement` skill's one-file-per-requirement
+  format as a separate pull request.
 - `package.json` scripts (or the build tool's equivalent), the test layout, the
   CI config, the pre-commit hook.
 - `git remote -v` and the labels on the tracker, if it can be reached.
@@ -35,10 +38,11 @@ Show what you found and what is missing. Take one file at a time: lead with the
 recommended answer so "yes" accepts it, and ask only where the choice
 genuinely branches.
 
-1. **docs.md**: where the four docs live, and what the repo must never hold.
+1. **docs.md**: where the requirements, plans, architecture, decisions and
+   glossary live, and what the repo must never hold.
 2. **testing.md**: the layers, the commands, the dependency rules, the standing
    rules.
-3. **tracker.md**: the tracker, the id scheme, extra labels, the merge guard.
+3. **tracker.md**: the tracker (or none), how epics link sub-issues, extra labels, the merge guard.
 4. **review.md**: the mechanical checks, escape hatches, invariants, extra
    high-risk kinds.
 

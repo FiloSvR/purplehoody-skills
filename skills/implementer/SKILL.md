@@ -28,12 +28,14 @@ files simply has none.
 
 - If the change adds or moves a component, package, API resource, store or
   dependency, run the `architect` skill first.
-- Find the requirement or use-case ID it serves. A bug fix references the
-  requirement it violated, or the issue.
-- Work from an issue (see the `plan` skill); create one if there is none, and
-  move its card to In Progress.
-- An issue with no `Seam:` line (and no Testing decisions) is a question for
-  the coordinator: stop and ask; do not pick a seam yourself.
+- Work from a task: its file in the plans folder, `R-012-T01-….md` (see the
+  `plan` skill), and its issue if the project has a tracker. If there is none,
+  plan one first. Move its card to In Progress.
+- Read the criteria it covers (`covers AC1, AC3`) in the requirement file, and
+  the proof each one needs (e2e test or doc). A bug fix references the
+  criterion it violated.
+- A task with no `Seam` line is a question for the coordinator: stop and ask;
+  do not pick a seam yourself.
 - Branch from an up-to-date `main`. Every change reaches `main` through a pull
   request.
 - Mind the context budget: stay under 200k tokens and about 50 turns. Read
@@ -44,7 +46,7 @@ files simply has none.
 ## Steps
 
 1. **Write the failing test.** In a split, the spec writer does this step; the
-   implementer starts at step 2. Start from the seam the issue names (see
+   implementer starts at step 2. Start from the seam the task names (see
    `plan`). Put the test next to the code, in the layer the project's testing
    file assigns to that kind of behaviour.
    - Put the ID in the test name or a comment on it.
@@ -55,6 +57,8 @@ files simply has none.
      files — assert the observable outcome (the files a runner collects, the
      request a server answers), not the value you put in the configuration.
      A config value can be right while the wiring around it is broken.
+   - A criterion the task covers is proved by its e2e test or doc section,
+     as its Proof row says, whatever the seam of the rest.
 2. **Watch it fail for the right reason.** Run only the test files the change
    touches, never the whole suite — CI is the full gate. A test that passes
    before the change proves nothing.
@@ -66,8 +70,12 @@ files simply has none.
 5. **Commit.** Commit at each green checkpoint, so a restart keeps the work.
    Reference the IDs in the message. Follow the project's dependency rules in
    `docs/agents/testing.md`.
-6. **Open the pull request.** Say what changed, the IDs, how it was tested and
-   anything left out, and `Closes #N` for its issue. Add the `needs/review`
+6. **Open the pull request.** Before opening it, fill the Proof cell of each
+   criterion the task covers in the requirement's Proof table (the test's
+   name, or the doc section's link), and without a tracker set the task
+   file's Status to `done`. Say what changed, the task file, the IDs, how it
+   was tested and anything left out, and with a tracker `Closes #N` for the
+   task's issue. Add the `needs/review`
    label (`plan` owns the rule). CI must pass; what "green" means while the
    label is on is in `plan` (Pull requests). Docs-only pull requests skip the
    tests. The project's extra CI gates and labels are in

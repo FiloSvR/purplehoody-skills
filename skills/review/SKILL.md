@@ -23,8 +23,9 @@ implementer, who fixes them on the same pull request.
 - Never the author of the change. The coordinator reviews the implementers'
   pull requests when the owner asks; a pull request the coordinator wrote is
   reviewed by another agent.
-- Start from the pull request number, in a fresh context. Read the issue, the
-  docs it cites and the diff first, and form your own view. Only then read the
+- Start from the pull request number, in a fresh context. Read the task (its
+  file in the plans folder, or its issue), the requirement criteria and the
+  docs it cites, and the diff first, and form your own view. Only then read the
   pull request body and the implementer's report, and check each claim in them
   against the code.
 - A **high-risk** change gets a second, independent review: one that touches
@@ -47,7 +48,10 @@ implementer, who fixes them on the same pull request.
    names; one below that seam is fine, one at another seam is a finding unless
    the diff says why. Extra work belongs in its own issue.
 2. **Done when.** Give each item its evidence: a test name, a `file:line`, or
-   a command and its output. An item without evidence is not met. Where the
+   a command and its output. An item without evidence is not met. Each
+   criterion the task covers has its proof in the requirement's Proof table,
+   and the proof is an e2e test or a doc section that really shows the
+   criterion; a lower-level test does not count. Where the
    issue carried `needs/architect`, check the design note is on the issue or
    its pull request and the label is gone (the rule is the `plan` skill's).
 3. **CI.** Green CI includes the project's mechanical checks;
