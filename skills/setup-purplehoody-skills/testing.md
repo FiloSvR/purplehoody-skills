@@ -1,6 +1,6 @@
 # Testing and standing rules
 
-Read by `change`, `architect` and `plan`.
+Read by `implementer`, `architect` and `plan`.
 
 ## Layers
 

@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Setup purplehoody skills
 
-The shared skills (`plan`, `change`, `architect`, `review`, `domain-modeling`,
+The shared skills (`plan`, `implementer`, `architect`, `review`, `domain-modeling`,
 `grill-with-docs`) name no project facts. They read them from four files in
 `docs/agents/`. This skill writes those files, from the templates next to it.
 It is prompt-driven: explore, present, confirm, then write.

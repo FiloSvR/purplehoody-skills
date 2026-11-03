@@ -1,10 +1,10 @@
 ---
-name: change
+name: implementer
 description: Implement a requirement or fix a bug, test first, through to a pull request with green CI. Use for any code change; use the architect skill first if the change affects structure.
 disable-model-invocation: true
 ---
 
-# Change
+# Implementer
 
 Code and tests are one task here: the test comes first and the change is done
 when CI is green. In a split delegation (see the `plan` skill) the failing
@@ -16,6 +16,13 @@ coordinator, who decides; it never edits the test.
 The project's own facts (test layers and suffixes, commands, dependency rules,
 the rules that hold whatever the task) are in `docs/agents/testing.md`. Read it
 first.
+
+The project may also hold area guides in its own `docs/implementer-*.md`
+(for example `docs/implementer-frontend.md`, `docs/implementer-backend.md`).
+List them, then read the ones whose area the change touches; if the issue
+does not make the area clear, read them all. Where a guide and the generic
+steps below disagree, the guide wins for that area. A project with no such
+files simply has none.
 
 ## Before
 

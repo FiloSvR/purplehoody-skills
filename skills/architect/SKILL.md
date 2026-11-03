@@ -45,4 +45,4 @@ the glossary's words.
 7. **Clear the label.** With the note on the issue or pull request, remove its
    `needs/architect` label; the rule is the `plan` skill's.
 
-Then implement with the `change` skill.
+Then implement with the `implementer` skill.

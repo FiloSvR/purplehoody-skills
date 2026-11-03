@@ -8,7 +8,7 @@ holds its own facts in four small files under `docs/agents/`.
 |---|---|
 | `setup-purplehoody-skills` | once per repo: writes `docs/agents/` and the pointer block in `AGENTS.md` |
 | `plan` | specs, cuts, issues, the board, pull request labels |
-| `change` | one change, test first, through to a pull request |
+| `implementer` | one change, test first, through to a pull request |
 | `architect` | designing a change that affects structure |
 | `review` | reviewing a pull request, from a fresh context |
 | `domain-modeling` | the glossary and the decisions |
@@ -47,9 +47,11 @@ Then, in each project, run `/setup-purplehoody-skills` once.
 | File | Holds | Read by |
 |---|---|---|
 | `docs/agents/docs.md` | where requirements, architecture, decisions and glossary live; what the repo never holds | `architect`, `domain-modeling`, `grill-with-docs` |
-| `docs/agents/testing.md` | test layers, commands, dependency rules, standing rules | `change`, `architect`, `plan` |
-| `docs/agents/tracker.md` | the tracker, id scheme, extra labels, merge guard | `plan`, `change` |
+| `docs/agents/testing.md` | test layers, commands, dependency rules, standing rules | `implementer`, `architect`, `plan` |
+| `docs/agents/tracker.md` | the tracker, id scheme, extra labels, merge guard | `plan`, `implementer` |
 | `docs/agents/review.md` | mechanical checks, escape hatches, invariants, high-risk kinds | `review` |
+
+Optionally, `docs/implementer-*.md` (e.g. `implementer-frontend.md`, `implementer-backend.md`) hold per-area guides; `implementer` reads the ones matching the area it touches.
 
 Templates are in `skills/setup-purplehoody-skills/`. A project with none of
 these things says so in one line; the skills still work.

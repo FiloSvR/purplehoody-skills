@@ -98,7 +98,7 @@ implementer, who fixes them on the same pull request.
    - data written by an older version (migrations), or two stores out of step.
 8. **Gates.** Run only the focused tests the steps need on the final head,
    within the local resource caps; a green CI on the head covers the full
-   suite. Keep within the context budget `change` owns.
+   suite. Keep within the context budget `implementer` owns.
 
 ## Findings
 

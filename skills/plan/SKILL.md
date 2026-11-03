@@ -39,7 +39,7 @@ it are instance details: they live in local notes, never in the repo.
   |---|---|---|
   | `who/agent` | issue | an agent can do it |
   | `who/user` | issue | the owner must: sudo, a browser, a secret |
-  | `needs/architect` | issue | the design note (`architect`) is required before `change`: the coordinator adds it when planning the cut, and whoever runs `architect` removes it once the note is on the issue or its pull request. The note is the evidence — no second "architect: yes" line in the body — and a review that finds the label gone without one is a finding |
+  | `needs/architect` | issue | the design note (`architect`) is required before `implementer`: the coordinator adds it when planning the cut, and whoever runs `architect` removes it once the note is on the issue or its pull request. The note is the evidence — no second "architect: yes" line in the body — and a review that finds the label gone without one is a finding |
   | `needs/review` | pull request | a review is owed before merge; how it is added, removed and re-added is under Pull requests |
   | `decision` | issue | stop and ask the owner (`grill-with-docs`) |
   | `blocked` | issue | waiting on something outside the plan |
@@ -65,14 +65,14 @@ design note (`architect`, `domain-modeling`) — and the issue cites it.
 
 **Choose the seam before the code**, and confirm it with the owner when the
 spec is published: the highest point that proves the behaviour, and as few
-seams as possible — ideally one. `change` starts from the seam the issue
+seams as possible — ideally one. `implementer` starts from the seam the issue
 records, and the review checks the tests against it.
 
 ### One cut, not one layer
 
 An issue is one **vertical cut**: narrow, but through every layer it needs
 (store, service, API, interface, tests), never a horizontal slice of one layer. It
-is verifiable on its own when done, and fits the budget `change` sets. The
+is verifiable on its own when done, and fits the budget `implementer` sets. The
 project's own hints for where to cut are in `docs/agents/tracker.md`.
 
 - Larger than that: split it into cuts, each with its own **Done when**, and
@@ -124,7 +124,7 @@ last child does.
 
 The output of planning is the issue set — the parent and its cuts — with the
 dependency edges, the labels and the cards, and nothing else: no document.
-The issue body is what `architect` and `change` read; the design note returns
+The issue body is what `architect` and `implementer` read; the design note returns
 to the same issue or its pull request; a decision goes to its decision entry, not to
 the plan.
 
