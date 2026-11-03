@@ -49,28 +49,30 @@ no task, and get the check that fits them instead, plus CI (step 3):
   (observable, one behaviour, free of design, decidable, provable); every
   story has a criterion; no section is `pending`; the status is `ready`; the
   number is free on `main`.
-- **a plan** (`plan`): every criterion is covered by a task, with its kind of
-  proof; every **Blocked by** links a real task and the edges have no cycle;
-  every task is `ready`, carries a seam, and its number is free on `main`; the
-  requirement changes only in its Proof table and status.
+- **a plan** (`plan`): the requirement is `ready` or `ongoing` on `main`;
+  every criterion is covered by a task, with its kind of proof; every
+  **Blocked by** links a real task and the edges have no cycle; every task is
+  `ready`, carries a seam (`none (decision)` for a decision task), and its
+  number is free on `main`; the requirement changes only in its Proof table
+  and status.
 - **a close** (`plan`, Closing): every Proof row names an e2e test that passes
   on `main` (run it) or a doc section that shows the criterion (open it), and
   matches the task that proved it; every task is `done` or `dropped`.
 
-1. **Scope.** Compare the diff with the issue's scope: nothing missing, nothing
-   extra, and nothing from its Out of scope (for a contained issue, what its
-   Scope leaves out). The tests must prove the behaviour at the seam the issue
-   names; one below that seam is fine, one at another seam is a finding unless
-   the diff says why. Extra work belongs in its own issue.
+1. **Scope.** Compare the diff with the task's Scope: nothing missing,
+   nothing extra, and nothing it leaves to other tasks or out. The tests must
+   prove the behaviour at the seam the task names; one below that seam is
+   fine, one at another seam is a finding unless the diff says why. Extra work
+   belongs in its own task.
 2. **Done when.** Give each item its evidence: a test name, a `file:line`, or
    a command and its output. An item without evidence is not met. Each
    criterion the task covers has its proof in the task file's Proof section,
    and the proof is an e2e test or a doc section that really shows the
    criterion; a lower-level test does not count. The task file says `done`,
    the requirement file is untouched, and a new task file's number is still
-   free on `main`. Where the
-   issue carried `needs/architect`, check the design note is on the issue or
-   its pull request and the label is gone (the rule is the `plan` skill's).
+   free on `main`. Where the task carried `needs/architect`, check the design
+   note is on the task or its pull request and the label is gone (the rule is
+   the `plan` skill's).
 3. **CI.** Green CI includes the project's mechanical checks;
    `docs/agents/review.md` lists them and what each one means. Read what they ran, not only that they
    passed, and judge every escape-hatch mark the project defines there: a mark
@@ -84,7 +86,7 @@ no task, and get the check that fits them instead, plus CI (step 3):
 5. **Invariants.** Check the change against:
    - the invariants and request flow in the architecture doc;
    - the standing rules and invariants listed in `docs/agents/review.md`;
-   - the decisions the issue cites;
+   - the decisions the task cites;
    - the docs that describe the changed code: they must still be true.
 
 6. **Code quality.** Read the diff for code that will be hard to change. The
@@ -101,7 +103,7 @@ no task, and get the check that fits them instead, plus CI (step 3):
    - the same switch on the same type in several places;
    - one logical change spread over many files, or one file changed for
      unrelated reasons;
-   - an abstraction, parameter or hook the issue doesn't need;
+   - an abstraction, parameter or hook the task doesn't need;
    - a caller walking a long chain of objects it shouldn't depend on;
    - a function or class that only passes calls on;
    - an implementer that ignores most of what it inherits.
@@ -169,7 +171,7 @@ One comment per review, on the pull request:
 
 <n> high, <n> medium, <n> low; worst: <F<n>, in a few words | none>.
 
-Reviewed at `<sha>` against #<issue>, the diff and the docs. Risk: <low | high (why)>.
+Reviewed at `<sha>` against `<task id>` (and #<issue>, with a tracker), the diff and the docs. Risk: <low | high (why)>.
 
 ### Done when
 | Item | Status | Evidence |

@@ -79,8 +79,9 @@ now. When the owner states how something works today, check the code (as in
 
 Branch from an up-to-date `main` and create the file once the title and the
 problem have settled, from the template below, with `Status: draft` and a
-`<!-- pending -->` line in each section still open. Then fill each section the round it settles, as
-`grill-with-docs` records, not in a batch at the end.
+`<!-- pending -->` line in each section still open. Then fill each section
+the round it settles, as `grill-with-docs` records, not in a batch at the
+end.
 
 ### 4. Check before it is done
 

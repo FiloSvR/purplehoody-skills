@@ -158,7 +158,8 @@ task covers, and iterate until the owner agrees.
 ### 5. Write and publish
 
 Only a requirement that is `ready` on `main` is planned; a `draft` one, or
-one whose pull request is still open, goes back to `requirement`. On a branch from an up-to-date `main`:
+one whose pull request is still open, goes back to `requirement`. On a branch
+from an up-to-date `main`:
 
 1. write the task files, from the template below, with `Status: ready`: none
    can be picked until the plan is merged, since only `main` counts;
@@ -175,11 +176,11 @@ one whose pull request is still open, goes back to `requirement`. On a branch fr
 ### 6. Gaps go back
 
 Planning writes only the requirement's Proof table and status, never its
-behaviour. A criterion that is ambiguous, a missing case found in the code, two criteria
-that contradict: stop, and settle it with the owner through `requirement`
-(Changing a requirement). Plan what is settled; the gap becomes a decision
-task (see Decisions), and the tasks that depend on it list it in their
-**Blocked by**.
+behaviour. A criterion that is ambiguous, a missing case found in the code,
+two criteria that contradict: stop, and settle it with the owner through
+`requirement` (Changing a requirement). Plan what is settled; the gap becomes
+a decision task (see Decisions), and the tasks that depend on it list it in
+their **Blocked by**.
 
 ## Tasks
 
@@ -388,8 +389,9 @@ so the merge makes it true.
 - Never close on a check that failed or wasn't run: comment, and leave it
   open or label it `blocked`.
 - An abandoned pull request gets a comment saying why; its task stays
-  `ready` on `main` (see Claiming a task). A superseded one's task is `dropped`, with
-  a link to the replacement. `blocked` is only for a blocker outside the plan.
+  `ready` on `main` (see Claiming a task). A superseded one's task is
+  `dropped`, with a link to the replacement. `blocked` is only for a blocker
+  outside the plan.
 
 ## What's next
 
@@ -418,7 +420,10 @@ it reaches the board.
 ## Decisions
 
 A decision is a task labelled `decision`, and the tasks that need it list it
-in their **Blocked by**. It is settled with the owner in a conversation (the
+in their **Blocked by**. It uses the same template, with
+`Requirement: R-012, decision for AC2` (or `none (chore)`), `Seam: none
+(decision)`, no Approach, and a **Done when** that names the doc the answer
+goes to. It is settled with the owner in a conversation (the
 `grill-with-docs` skill): the docs are written on a branch as the answers
 settle, the outcome goes in the task's Proof section (and on its issue), and
 that docs pull request sets it `done`.
